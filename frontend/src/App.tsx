@@ -80,6 +80,16 @@ const normalizeApplication = (raw: any): Application => ({
   appliedAt: raw?.appliedAt || raw?.createdAt || new Date().toISOString()
 });
 
+const readJsonSafely = async (res: Response): Promise<any> => {
+  const raw = await res.text();
+  if (!raw) return {};
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return { message: raw };
+  }
+};
+
 // --- Screens ---
 
 function AuthScreen({ onLogin }: { onLogin: (user: User) => void }) {
@@ -107,7 +117,7 @@ function AuthScreen({ onLogin }: { onLogin: (user: User) => void }) {
         body: JSON.stringify(body)
       });
 
-      const data = await res.json();
+      const data = await readJsonSafely(res);
 
       if (!res.ok) {
         // Check for both 'error' and 'message' keys for flexibility
@@ -418,8 +428,7 @@ function StudentDashboard({ user, onUpdateUser }: { user: User, onUpdateUser: (u
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resumeText })
       });
-      const raw = await res.text();
-      const data = raw ? JSON.parse(raw) : {};
+      const data = await readJsonSafely(res);
 
       if (!res.ok) {
         throw new Error(data.error || data.message || 'Failed to analyze resume');
@@ -453,7 +462,7 @@ function StudentDashboard({ user, onUpdateUser }: { user: User, onUpdateUser: (u
           resumeText
         })
       });
-      const newApp = await res.json();
+      const newApp = await readJsonSafely(res);
       setApplications([...applications, newApp]);
       setSelectedInternship(null);
     } catch (e) {
@@ -736,7 +745,7 @@ function FacultyDashboard({ user }: { user: User }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ resumeText: app.resumeText, internshipId: app.internshipId })
       });
-      const data = await res.json();
+      const data = await readJsonSafely(res);
       
       setApplications(apps => apps.map(a => a.id === app.id ? { ...a, aiScore: data.score, aiFeedback: data.justification } : a));
     } catch (e) {
@@ -922,7 +931,7 @@ function AdminDashboard() {
           department: newUserRole === 'student' ? newUserDepartment : undefined
         })
       });
-      const data = await res.json();
+      const data = await readJsonSafely(res);
       if (!res.ok) throw new Error(data.error || 'Failed to add user');
       
       setShowAddUser(false);

@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
         res.json(users);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
         res.json(user);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
@@ -106,7 +106,7 @@ router.delete('/:id', async (req, res) => {
         res.json({ success: true, message: 'User deleted' });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 });
 

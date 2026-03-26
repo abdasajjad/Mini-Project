@@ -56,7 +56,7 @@ exports.applyForInternship = async (req, res) => {
         res.status(201).json(application);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -71,7 +71,7 @@ exports.getMyApplications = async (req, res) => {
         res.json(applications);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -94,7 +94,7 @@ exports.getInternshipApplications = async (req, res) => {
         res.json(applications);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -127,7 +127,7 @@ exports.updateApplicationStatus = async (req, res) => {
         res.json(application);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -158,7 +158,7 @@ exports.uploadCertificate = async (req, res) => {
 
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -181,6 +181,6 @@ exports.verifyCertificate = async (req, res) => {
         res.json(application);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };

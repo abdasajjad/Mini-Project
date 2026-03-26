@@ -13,7 +13,7 @@ exports.createInternship = async (req, res) => {
         res.status(201).json(internship);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -33,7 +33,7 @@ exports.getInternships = async (req, res) => {
         res.json(internships);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -48,7 +48,7 @@ exports.getInternshipById = async (req, res) => {
     } catch (err) {
         console.error(err.message);
         if (err.kind === 'ObjectId') return res.status(404).json({ message: 'Internship not found' });
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -69,7 +69,7 @@ exports.updateInternship = async (req, res) => {
         res.json(internship);
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -90,6 +90,6 @@ exports.deleteInternship = async (req, res) => {
         res.json({ message: 'Internship removed' });
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({ message: 'Server error' });
     }
 };
